@@ -1,233 +1,553 @@
-<!DOCTYPE HTML>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-  <title>Yunxiao Du</title>
-  
-  <meta name="author" content="Yunxiao Du">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
-  <link rel="icon" type="image/jpeg" href="images/icon.jpeg">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>易嘉华 - 个人简历</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding-top: 80px; /* 给固定导航栏留空间 */
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        h2 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            display: inline-block;
+        }
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+        }
+        .nav-logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .nav-list {
+            display: flex;
+            list-style: none;
+        }
+        .nav-item {
+            margin-left: 30px;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #3498db;
+        }
+        /* 个人信息样式 */
+        .profile {
+            text-align: center;
+            padding: 40px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+        .profile h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .profile-contact {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .contact-item i {
+            color: #3498db;
+        }
+        /* 板块通用样式 */
+        .section {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        /* 教育背景样式 */
+        .edu-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .edu-item {
+            padding: 20px;
+            border-left: 3px solid #3498db;
+            background-color: #f9f9f9;
+            border-radius: 0 8px 8px 0;
+        }
+        .edu-item h3 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .edu-meta {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        /* 项目/实习/校园经历卡片样式 */
+        .card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .card {
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .card:hover {
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(52,152,219,0.1);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .card-title {
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .card-date {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .card-summary {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .card-details {
+            display: none; /* 默认隐藏详情 */
+            padding-top: 15px;
+            border-top: 1px dashed #eee;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.8;
+        }
+        .card-details.active {
+            display: block; /* 激活时显示详情 */
+        }
+        .card-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #e3f2fd;
+            color: #3498db;
+            font-size: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        /* 技能标签样式 */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .skill-tag {
+            padding: 8px 16px;
+            background-color: #f1f8e9;
+            color: #4caf50;
+            border-radius: 20px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        .skill-tag:hover {
+            background-color: #4caf50;
+            color: #fff;
+        }
+        /* 回到顶部按钮样式 */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: none; /* 默认隐藏 */
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(52,152,219,0.3);
+            transition: all 0.3s;
+        }
+        #backToTop:hover {
+            background-color: #2980b9;
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 5%;
+            }
+            .nav-list {
+                width: 100%;
+                justify-content: space-around;
+            }
+            .nav-item {
+                margin-left: 0;
+            }
+            .section {
+                padding: 25px;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .profile-contact {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+        }
+    </style>
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 </head>
-
 <body>
-  <table style="width:100%;max-width:680px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-    <tr style="padding:0px">
-      <td style="padding:0px">
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr style="padding:0px">
-            <td style="padding:2.5%;width:63%;vertical-align:middle">
-              <p style="text-align:center">
-                <name>yjh</name>
-              </p>
-              <p>I am a second-year master student at Zhejiang University<a href="https://dilab-zju.github.io/"> Dilab</a> advised by Ke Chen, 
-		      Lidan Shou and Dawei Jiang. Before that, I received my B.Eng. in 2020 from Nanchang University where I was advised by <a href="https://good.ncu.edu.cn/Pages/Professor.html">Zichen Xu</a>.
-              
-              
-              <p style="text-align:center">
-                <a href="mailto:me@jackdu.cn">Email</a> &nbsp/&nbsp
-                <!-- <a href="data/JonBarron-CV.pdf">CV</a> &nbsp/&nbsp -->
-                <!-- <a href="data/JonBarron-bio.txt">Bio</a> &nbsp/&nbsp -->
-              <!--  <a href="https://scholar.google.com/citations?hl=en&user=8NHgb2AAAAAJ">Google Scholar</a> &nbsp/&nbsp -->
-               <!--  <a href="https://twitter.com/XinjingC">WeChat Official Accounts</a> &nbsp/&nbsp -->
-                <a href="http://blog.jackdu.cn/">Blog</a> &nbsp/&nbsp
-                <a href="https://github.com/yunxiao3/">Github</a> &nbsp/&nbsp
-                <a href="https://scholar.google.com/citations?user=oqQA1fYAAAAJ&hl=en">Google Scholar</a> 
-              </p>
-            </td>
-            <td style="padding:2.5%;width:40%;max-width:40%">
-             <img style="width:100%;max-width:100%" alt="profile photo" src="images/portrait.jpg" class="hoverZoomLink"></a>
-            </td>
-          </tr>
-        </tbody></table>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">易嘉华的简历</div>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#profile" class="nav-link">个人信息</a></li>
+                <li class="nav-item"><a href="#education" class="nav-link">教育背景</a></li>
+                <li class="nav-item"><a href="#projects" class="nav-link">项目经历</a></li>
+                <li class="nav-item"><a href="#internships" class="nav-link">实习经历</a></li>
+                <li class="nav-item"><a href="#campus" class="nav-link">校园经历</a></li>
+                <li class="nav-item"><a href="#skills" class="nav-link">个人技能</a></li>
+            </ul>
+        </div>
+    </nav>
 
+    <div class="container">
+        <!-- 个人信息板块 -->
+        <section id="profile" class="section profile">
+            <h1>易嘉华</h1>
+            <p>智能制造工程专业 · 华侨大学本科在读</p>
+            <div class="profile-contact">
+                <div class="contact-item">
+                    <i class="fa fa-phone"></i>
+                    <span>17850518427</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fa fa-envelope"></i>
+                    <span>17850518427@163.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fa fa-graduation-cap"></i>
+                    <span>CET-4</span>
+                </div>
+            </div>
+        </section>
 
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-            <td style="padding:0px;padding-top:5px;">
-              <heading>Research</heading>
-            </td>
-          </tr>
-          
-      <tr>
-        <td style="padding:20px; padding-top:5px; width:75%;vertical-align:middle">
-         
-                I am interested in distributed systems, especially consensus protocols. In the past, I have been trying to design a cloud native consensus protocol to auto scala out and reduce the service cost. My current research focus is designing a new LSMT storage engine based on persistent memory to better support distributed relational databases.
-      
-        </td>
-      </tr>
-      
+        <!-- 教育背景板块 -->
+        <section id="education" class="section">
+            <h2>教育背景</h2>
+            <div class="edu-content">
+                <div class="edu-item">
+                    <h3>华侨大学 - 智能制造工程（本科）</h3>
+                    <div class="edu-meta">2022.9 - 2026.6 | GPA：3.97/5.0（专业前12%）</div>
+                    <p><strong>主修课程</strong>：智能制造工程、机械制造技术、控制工程、材料力学、智能控制等</p>
+                    <p><strong>荣誉奖项</strong>：2022-2023华侨大学二等奖学金、2023-2024机电及自动化学院二等奖学金</p>
+                </div>
+            </div>
+        </section>
 
+        <!-- 项目经历板块 -->
+        <section id="projects" class="section">
+            <h2>项目经历</h2>
+            <div class="card-list">
+                <!-- 项目1 -->
+                <div class="card" data-target="project1">
+                    <div class="card-header">
+                        <div class="card-title">2024福建省大学生工程实践与创新能力大赛</div>
+                        <div class="card-date">2024年</div>
+                    </div>
+                    <div class="card-summary">负责太阳能小车机械机构设计与搭建，主导组装调试，优化传动系统，获新能源赛道三等奖。</div>
+                    <div id="project1" class="card-details">
+                        <p>1. 核心职责：负责太阳能小车机械机构的设计与搭建，精准把控零部件尺寸匹配及安装精度，确保机械结构的稳定性与功能性满足比赛要求；</p>
+                        <p>2. 团队协作：主导完成小车组装工作，协调团队成员有序装配机械部件，严格执行调试流程，优化机械传动系统效率与运行流畅度；</p>
+                        <p>3. 问题优化：针对调试过程中发现的机械问题进行分析改进，通过迭代优化结构设计，提升太阳能小车在动力传输、车身稳定性等方面的综合性能；</p>
+                        <p>4. 赛事成果：荣获2024福建省大学生工程实践与创新能力大赛新能源赛道三等奖。</p>
+                    </div>
+                    <span class="card-tag">机械设计 | 团队协作 | 赛事获奖</span>
+                </div>
+                <!-- 项目2 -->
+                <div class="card" data-target="project2">
+                    <div class="card-header">
+                        <div class="card-title">2023中国大学生机械工程创新创意大赛智能制造赛</div>
+                        <div class="card-date">2023年</div>
+                    </div>
+                    <div class="card-summary">负责PLC编程与人机交互面板设计，参与数字孪生系统搭建，获国赛三等奖、省赛二等奖。</div>
+                    <div id="project2" class="card-details">
+                        <p>1. 编程开发：负责PLC编程任务，设计设备控制逻辑程序，确保自动化生产流程的精准运行，实现对设备启停、参数调控等核心功能的编程控制；</p>
+                        <p>2. 界面设计：设计人机交互面板，基于博图（TIA Portal）软件规划界面架构，开发操作按钮、数据监控界面等模块，优化用户操作流程；</p>
+                        <p>3. 系统搭建：协同团队运用Process Simulate等软件，参与数字孪生与虚拟仿真系统搭建，通过PLC程序与仿真系统的联调测试，验证控制逻辑稳定性；</p>
+                        <p>4. 赛事成果：荣获2023中国大学生机械工程创新创意大赛智能制造赛国赛三等奖、省赛二等奖。</p>
+                    </div>
+                    <span class="card-tag">PLC编程 | TIA Portal | 数字孪生 | 赛事获奖</span>
+                </div>
+            </div>
+        </section>
 
+        <!-- 实习经历板块 -->
+        <section id="internships" class="section">
+            <h2>实习经历</h2>
+            <div class="card-list">
+                <!-- 实习1 -->
+                <div class="card" data-target="intern1">
+                    <div class="card-header">
+                        <div class="card-title">厦门新能安科技有限公司 - 设备工程师实习生</div>
+                        <div class="card-date">2025.7 - 2025.9</div>
+                    </div>
+                    <div class="card-summary">参与电池电芯转接焊核心设备调试与维护，优化质量检测设备，梳理标准化调试流程。</div>
+                    <div id="intern1" class="card-details">
+                        <p>1. 设备运维：负责参与电池电芯转接焊核心设备（Tab焊接机、极组折弯设备等）调试与维护，负责关键参数校准，协助焊头、焊座等部件拆装更换，保障设备稳定运行；</p>
+                        <p>2. 流程优化：协助转接焊工序与后工序设备的协同调试，优化极耳焊接、绿胶贴附等质量检测设备，精准识别各类质量问题，提升工序质量管控效率；</p>
+                        <p>3. 数据管理：参与转接焊设备数据管理，核对设备参数并梳理标准化调试流程，为后续设备运维提供参考。</p>
+                    </div>
+                    <span class="card-tag">设备调试 | 质量优化 | 流程标准化</span>
+                </div>
+                <!-- 实习2 -->
+                <div class="card" data-target="intern2">
+                    <div class="card-header">
+                        <div class="card-title">生产实习</div>
+                        <div class="card-date">2024.6 - 2024.7</div>
+                    </div>
+                    <div class="card-summary">调研厦门本地企业生产流程，分析效率瓶颈，协助制定生产计划。</div>
+                    <div id="intern2" class="card-details">
+                        <p>1. 企业调研：调研厦门本地企业，学习生产流程规划、人员管理策略及生产技术落地应用，梳理生产运作逻辑；</p>
+                        <p>2. 数据处理：记录生产数据，分析效率瓶颈，协助制定初步生产计划，为优化生产提供支持。</p>
+                    </div>
+                    <span class="card-tag">生产调研 | 数据分-析 | 计划制定</span>
+                </div>
+                <!-- 实习3 -->
+                <div class="card" data-target="intern3">
+                    <div class="card-header">
+                        <div class="card-title">金工实习</div>
+                        <div class="card-date">2023.4 - 2023.6</div>
+                    </div>
+                    <div class="card-summary">学习机械加工设备操作，负责工具维护与零件精度检测。</div>
+                    <div id="intern3" class="card-details">
+                        <p>1. 设备操作：学习操作车床、铣床等机械加工设备，掌握机械设备操作方法；</p>
+                        <p>2. 质量管控：负责加工工具日常维护保养，协助检测零件加工精度，确保成品质量符合标准。</p>
+                    </div>
+                    <span class="card-tag">机械操作 | 工具维护 | 精度检测</span>
+                </div>
+            </div>
+        </section>
 
+        <!-- 校园经历板块 -->
+        <section id="campus" class="section">
+            <h2>校园经历</h2>
+            <div class="card-list">
+                <!-- 校园1 -->
+                <div class="card" data-target="campus1">
+                    <div class="card-header">
+                        <div class="card-title">机电学院党建办 - 副主任</div>
+                        <div class="card-date">2024.6 - 2025.6</div>
+                    </div>
+                    <div class="card-summary">统筹党建办日常工作，组织支部活动，管理团队成员，获优秀共青团干部。</div>
+                    <div id="campus1" class="card-details">
+                        <p>1. 工作统筹：负责组织和协调党建办的日常工作，与党建办成员和其他相关部门合作，确保党建工作顺利进行；</p>
+                        <p>2. 活动组织：统筹推进支部工作室、培德图书角建设开放，协调与组织各支部活动；</p>
+                        <p>3. 团队管理：负责团队的招募、培训和激励，建立良好的工作氛围和团队合作精神，实现团队目标和个人成长；</p>
+                        <p>4. 荣誉奖项：荣获2023、2024年度华侨大学机电及自动化学院优秀共青团干部。</p>
+                    </div>
+                    <span class="card-tag">团队管理 | 活动组织 | 荣誉称号</span>
+                </div>
+                <!-- 校园2 -->
+                <div class="card" data-target="campus2">
+                    <div class="card-header">
+                        <div class="card-title">校团委青年志愿者协会 - 副部长</div>
+                        <div class="card-date">2023.6 - 2024.6</div>
+                    </div>
+                    <div class="card-summary">策划志愿者活动，培训新成员，提升服务质量，获优秀学生干部。</div>
+                    <div id="campus2" class="card-details">
+                        <p>1. 活动策划：负责策划协会活动，例如泉、厦校区素质拓展、2024十佳志愿者评选和冬至包饺子活动等；</p>
+                        <p>2. 成员培训：负责对新加入的志愿者进行培训和指导，使其了解志愿服务中心的工作原则和规范；</p>
+                        <p>3. 能力提升：定期组织志愿者培训和工作坊，提升志愿者的专业素养和服务质量；</p>
+                        <p>4. 荣誉奖项：荣获2023-2024华侨大学优秀学生干部。</p>
+                    </div>
+                    <span class="card-tag">活动策划 | 志愿者培训 | 荣誉称号</span>
+                </div>
+            </div>
+        </section>
 
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-            <td style="padding:0px;padding-top:5px;">
-              <heading>Publications</heading>
-            </td>
-          </tr>
-          
-      <tr>
-        <td style="padding:20px; padding-top:5px; width:75%;vertical-align:middle">
-            <papertitle>Cost-effective Strong Consistency on Scalable Geo-diverse Data Replicas
-            </papertitle>
-          <br>
-          <em>  Yunxiao Du*, Zichen Xu, Kanqi Zhang, et al. IEEE Transactions on Cloud Computing 2022 </em> 
-          <br> 
-          <br>
-           &nbsp&nbsp&nbsp&nbsp 
-           In this <a href="http://doc.jackdu.cn/paper/IEEE_TCC.pdf"> <papertitle> paper </papertitle></a>, I designed a cloud native raft protocol (BW-Raft) to improve the scalability of original raft and save service costs by using spot instance.
-          <p></p>
-        </td>
-      </tr>
-      
+        <!-- 个人技能板块 -->
+        <section id="skills" class="section">
+            <h2>个人技能</h2>
+            <div class="skills-container">
+                <div class="skill-tag">Office办公软件</div>
+                <div class="skill-tag">Solidworks</div>
+                <div class="skill-tag">CAD</div>
+                <div class="skill-tag">Python编程</div>
+                <div class="skill-tag">Matlab</div>
+                <div class="skill-tag">PLC编程</div>
+                <div class="skill-tag">TIA Portal</div>
+                <div class="skill-tag">Process Simulate</div>
+                <div class="skill-tag">机械设计</div>
+                <div class="skill-tag">设备调试</div>
+                <div class="skill-tag">CET-4</div>
+            </div>
+        </section>
+    </div>
 
-    </tbody></table>
-      
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop">
+        <i class="fa fa-arrow-up"></i>
+    </button>
 
-      <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-            <td style="padding:0px;padding-top:5px;">
-              <heading>Projects</heading>
-            </td>
-          </tr>
-          
-      <tr>
-        <td style="padding:20px; padding-top:5px; width:75%;vertical-align:middle">
-            <papertitle>LazyStore: A Range Query Workload Adaptive Key-Value Store based on Hybrid Memory Index &nbsp  [WIP]
-            </papertitle>
-          <br>
-          <br>
-           &nbsp&nbsp&nbsp&nbsp 
-            In this project, I designed Lazytree a hybrid memory index to better support distributed database based on <a href="https://github.com/zxjcarrot/silkstore"> <papertitle> Silkstore </papertitle></a>. This project is currently being advised and collaborated by <a href="https://zxjcarrot.github.io/"> <papertitle> Xinjing Zhou </papertitle></a>.
-          <p></p>
-        </td>
-      </tr>
-      
+    <script>
+        // 1. 导航栏平滑跳转功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // 阻止默认跳转行为
+                    
+                    // 移除所有导航项的active类
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    // 给当前点击的导航项添加active类
+                    this.classList.add('active');
+                    
+                    // 获取目标板块的ID（从href属性中提取）
+                    const targetId = this.getAttribute('href');
+                    // 找到目标板块元素
+                    const targetSection = document.querySelector(targetId);
+                    
+                    // 平滑滚动到目标板块
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start' // 滚动到板块顶部
+                        });
+                    }
+                });
+            });
 
-    </tbody></table>
+            // 2. 项目/实习/校园经历卡片展开/折叠功能
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // 获取当前卡片对应的详情区域ID
+                    const targetId = this.getAttribute('data-target');
+                    const details = document.getElementById(targetId);
+                    
+                    // 切换详情区域的显示/隐藏
+                    details.classList.toggle('active');
+                    
+                    // 切换卡片标题颜色（视觉反馈）
+                    const cardTitle = this.querySelector('.card-title');
+                    if (details.classList.contains('active')) {
+                        cardTitle.style.color = '#3498db';
+                    } else {
+                        cardTitle.style.color = '#2c3e50';
+                    }
+                });
+            });
 
-
-	<table width="100%" align="center" border="0" cellpadding="5"><tbody>
-	   <tr><td style="padding:0px;padding-top:5px;width:100%">
-		<heading>Internships</heading>
-	      </td>
-	  </tr></tbody></table>
-
-	    <table width="100%" align="center" border="0" cellpadding="5"><tbody>
-	      <tr><td style="padding:20px;padding-top:5px;width:100%;vertical-align:middle">
-		<a href="https://www.bytedance.com/en"><papertitle>ByteDance </papertitle></a> 
-        &nbsp 
-    <b><i> Applied Research Center-Storage </i></b>
-		    &nbsp&nbsp  2022.5 - Present, Beijing, China
-    <p>
-      &nbsp&nbsp&nbsp&nbsp 
-		  Working on  <a href="https://github.com/bytedance/terarkdb">TerarkDB</a>'s Link Compaction project. 
-		In this project, I am mainly responsible for designing and implementing Link Compaction under the guidance of mentor and other colleagues.
-    </p>
-	 </td>
-	</tr></tbody></table>
-	
-
-
-
-
-      <table width="100%" align="center" border="0" cellpadding="5"><tbody>
-          <tr><td style="padding:0px;padding-top:5px;width:100%;vertical-align:middle">
-            <heading>Teaching</heading>
-          </td>
-      </tr></tbody></table>
-        
-      <table width="100%" align="center" border="0" cellpadding="5"><tbody>
-        <tr><td style="padding:20px;padding-top:5px;width:100%;vertical-align:middle">
-          Teaching Assistant for Operating System in ZJU <a href="https://zjusec.gitee.io/os21fall/"><papertitle>(Fall 2021)</papertitle></a>
-
-        </td>
-    </tr></tbody></table>
-
-
-
-
-
-
-	
-      
-        <table width="100%" align="center" border="0" cellpadding="5"><tbody>
-          <tr><td style="padding:0px;padding-top:5px;width:100%;vertical-align:middle">
-            <heading>Others</heading>
-          </td>
-      </tr></tbody></table>
-        
-      <table width="100%" align="center" border="0" cellpadding="5"><tbody>
-        <tr><td style="padding:20px;padding-top:5px;width:100%;vertical-align:middle">
-        Win the championship of Nanchang University Football League,
-          <br>
-
-        Swim across the 4km + Ganjiang River,
-          <br>
-
-         <a href="https://mp.weixin.qq.com/s/YDkebqYpav6EezBh16uulw"><papertitle>Ride 2000km + G318 Sichuan Tibet line in 22 days ,</papertitle></a>
-          <br>
-
-        Finish Zhoushan half marathon in two hours,
-          <br>
-        
-    </tr></tbody></table>
-
-     
-<!--
-    <table width="100%" align="center" border="0" cellpadding="5"><tbody>
-      <tr><td style="padding:20px;padding-top:5px;width:100%">
-        <heading>Internships</heading>
-      </td>
-  </tr></tbody></table>
-
-    <table width="100%" align="center" border="0" cellpadding="5"><tbody>
-      <tr><td style="padding:20px;padding-top:5px;width:100%;vertical-align:middle">
-        <a href="https://www.alibaba.com/"><papertitle>Alibaba</papertitle></a>
-        <p>Software Engineer Intern  |    08/2019 - 09/2019, Hangzhou, China</p>
-        Working on the DPTree project.
-      </td>
-  </tr></tbody></table>
-
-  <table width="100%" align="center" border="0" cellpadding="20"><tbody>
-    <tr><td style="padding:20px;padding-top:5px;width:100%;vertical-align:middle">
-      <a href="https://www.dolphindb.com/"><papertitle>DolphinDB, Inc.</papertitle></a>
-      <p>Software Engineer Intern  |    05/2017 - 01/2019, Hangzhou, China</p>
-    </td>
-</tr></tbody></table>
-
-        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20"><tbody>
-          <tr>
-            <td>
-              <heading>Services</heading>
-              <p>
-                <li>
-                  External reviewer for SIGMOD 2021, VLDB 2021
-                </li>
-                <li>
-                  Reviewer for VLDBJ 2022.
-                </li>
-               </p>
-            </td>
-          </tr>
-        </tbody></table>
-        
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-            <td style="padding:0px">
-              <br><br>
-              <p style="text-align:right;font-size:small;">
-                Template from <a href="https://github.com/jonbarron/jonbarron_website">jonbarron.</a>
-              </p>
-          </td></tr>
-        </tbody></table>
-      </td>
-    </tr>
-  </table>
-
--->
+            // 3. 回到顶部按钮功能
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            // 监听页面滚动事件
+            window.addEventListener('scroll', function() {
+                // 当页面滚动超过300px时显示按钮，否则隐藏
+                if (window.scrollY > 300) {
+                    backToTopBtn.style.display = 'flex';
+                } else {
+                    backToTopBtn.style.display = 'none';
+                }
+                
+                // 导航栏高亮当前可视板块
+                const sections = document.querySelectorAll('.section');
+                let currentSectionId = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100; // 偏移量（导航栏高度）
+                    const sectionHeight = section.offsetHeight;
+                    
+                    // 判断当前滚动位置是否在该板块内
+                    if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                        currentSectionId = '#' + section.getAttribute('id');
+                    }
+                });
+                
+                // 更新导航栏active状态
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === currentSectionId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            });
+            
+            // 点击回到顶部按钮
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
-
 </html>
