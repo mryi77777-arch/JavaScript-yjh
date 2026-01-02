@@ -17,6 +17,8 @@
         body {
             background-color: #f5f8fa;
             padding: 20px;
+            /* 增加页面高度，确保有足够滚动空间 */
+            min-height: 150vh;
         }
 
         /* 头部标题样式 */
@@ -44,23 +46,33 @@
         .food-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 50px; /* 增大间距，让分步显示更明显 */
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* 美食卡片样式 */
+        /* 美食卡片样式 - 初始隐藏状态 */
         .food-card {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 3px 15px rgba(0,0,0,0.1);
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* 初始状态：透明+向下偏移 */
+            opacity: 0;
+            transform: translateY(50px);
+            /* 过渡动画：平滑切换状态 */
+            transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
 
-        /* 卡片悬停效果 */
-        .food-card:hover {
+        /* 美食卡片显示状态（通过JS添加该类） */
+        .food-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 卡片悬停效果（保留原有交互） */
+        .food-card.visible:hover {
             transform: translateY(-10px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
@@ -98,7 +110,7 @@
         /* 底部样式 */
         footer {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 80px;
             padding: 20px;
             color: #7f8c8d;
             font-size: 1rem;
@@ -123,47 +135,48 @@
     </footer>
 
     <script>
-        // 1. 定义厦门传统美食数据（包含图片、名称、详细介绍）
+        // 1. 定义厦门传统美食数据（保留原有数据结构）
         const xiamenFoods = [
             {
                 name: "沙茶面",
-                imgUrl: "https://th.bing.com/th/id/OIP.BoyvqXdPZOQPr1N0LZjmOQHaE8?w=263&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3", 
+                imgUrl: "https://picsum.photos/seed/shachhttps://th.bing.com/th/id/OIP.BoyvqXdPZOQPr1N0LZjmOQHaE8?w=263&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3anmian/800/500", // 占位图，可替换为真实图片
                 description: "厦门标志性传统美食，源自东南亚沙茶风味与闽南面食的完美融合。汤底以沙茶酱为核心，搭配骨汤熬制，色泽红亮，鲜香浓郁，咸中带甜，微辣回甘。配料极为丰富，常见的有虾仁、鱿鱼、鱼丸、豆腐泡、青菜等，面条多选用劲道的碱水面，拌匀后每一根面条都裹满浓郁汤底，口感层次丰富，是厦门人早餐和正餐的首选。"
             },
             {
                 name: "土笋冻",
-                imgUrl: "https://th.bing.com/th/id/OIP.e2jC5zIQbHV_EkYaYTWN9QHaHa?w=143&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3", 
+                imgUrl: "https://picsum.photos/seed/tusunhttps://th.bing.com/th/id/OIP.e2jC5zIQbHV_EkYaYTWN9QHaHa?w=143&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3dong/800/500", // 占位图，可替换为真实图片
                 description: "厦门极具特色的传统小吃，堪称“闽南奇味”。其原料并非竹笋，而是一种生活在沿海滩涂的星虫（俗称“土笋”）。制作时将土笋熬煮，其体内的胶质会慢慢析出，冷却后自然凝固成晶莹剔透的冻状，形似果冻。成品土笋冻色泽洁白，口感Q弹爽滑，食用时蘸上醋、芥末、蒜蓉、酱油等调料，鲜而不腥，清爽可口，不仅是特色美食，还具有一定的营养价值。"
             },
             {
                 name: "烧肉粽",
-                imgUrl: "https://th.bing.com/th/id/OIP.iu_bCAnKqMNXCL8boSTsywHaDF?w=343&h=145&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3", 
+                imgUrl: "https://picsum.photos/sehttps://th.bing.com/th/id/OIP.iu_bCAnKqMNXCL8boSTsywHaDF?w=343&h=145&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3ed/shaorouzong/800/500", // 占位图，可替换为真实图片
                 description: "厦门烧肉粽区别于北方甜粽，是闽南咸粽的代表，以“料足味浓”闻名。粽叶选用清香的箬叶或竹叶，糯米提前用酱油、盐等调味腌制，内馅极为丰富，核心配料是肥瘦相间的五花肉（经卤制或腌制，油润不腻），搭配板栗、香菇、干贝、虾仁、蛋黄等食材。煮熟后的烧肉粽软糯鲜香，糯米吸饱了肉香和粽叶香，内馅口感丰富，食用时可蘸花生酱、甜辣酱或蒜蓉酱，风味更佳。"
             },
             {
                 name: "海蛎煎（蚵仔煎）",
-                imgUrl: "https://th.bing.com/th/id/OIP.2P0FEToLFuptgPTXka0DBQHaE8?w=292&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=30", 
+                imgUrl: "https://picsum.photos/seed/haohttps://th.bing.com/th/id/OIP.2P0FEToLFuptgPTXka0DBQHaE8?w=292&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=30lijian/800/500", // 占位图，可替换为真实图片
                 description: "闽南经典传统小吃，厦门街头巷尾随处可见。原料选用新鲜饱满的海蛎（闽南称“蚵仔”），搭配地瓜粉、鸡蛋、葱花调制而成。制作时先将海蛎与地瓜粉浆拌匀，倒入热油锅中煎至定型，再淋上蛋液，煎至两面金黄酥脆，内里鲜嫩多汁。成品外酥里嫩，海蛎的鲜与鸡蛋的香完美融合，食用时蘸上闽南特色甜辣酱，解腻增香，是厦门人喜爱的街头美食和下酒菜。"
             }
         ];
 
         // 2. 获取美食容器DOM元素
         const foodContainer = document.getElementById("foodContainer");
+        // 存储所有美食卡片DOM元素
+        let foodCards = [];
 
-        // 3. 动态生成美食卡片（核心JavaScript功能）
+        // 3. 动态生成美食卡片（保留原有功能，新增初始隐藏）
         function renderFoodCards() {
-            // 遍历美食数据，为每个美食创建卡片
             xiamenFoods.forEach(food => {
                 // 创建卡片容器
                 const foodCard = document.createElement("div");
-                foodCard.className = "food-card";
+                foodCard.className = "food-card"; // 初始仅含隐藏样式类
 
                 // 创建美食图片元素
                 const foodImg = document.createElement("img");
                 foodImg.className = "food-img";
                 foodImg.src = food.imgUrl;
-                foodImg.alt = food.name; // 图片描述，提升可访问性
-                // 图片加载失败时显示默认占位图
+                foodImg.alt = food.name;
+                // 图片加载失败兜底
                 foodImg.onerror = function() {
                     this.src = "https://picsum.photos/800/500";
                 };
@@ -172,34 +185,65 @@
                 const foodInfo = document.createElement("div");
                 foodInfo.className = "food-info";
 
-                // 创建美食名称元素
+                // 创建美食名称和介绍
                 const foodName = document.createElement("h2");
                 foodName.textContent = food.name;
-
-                // 创建美食介绍元素
                 const foodDesc = document.createElement("p");
                 foodDesc.textContent = food.description;
 
-                // 组装美食信息容器
+                // 组装元素
                 foodInfo.appendChild(foodName);
                 foodInfo.appendChild(foodDesc);
-
-                // 组装美食卡片
                 foodCard.appendChild(foodImg);
                 foodCard.appendChild(foodInfo);
-
-                // 将卡片添加到容器中
                 foodContainer.appendChild(foodCard);
+
+                // 将生成的卡片存入数组
+                foodCards.push(foodCard);
             });
         }
 
-        // 4. 页面加载完成后渲染美食卡片
+        // 4. 核心功能：判断元素是否进入视口（用于滚动触发显示）
+        function isElementInViewport(el) {
+            // 获取元素的位置信息
+            const rect = el.getBoundingClientRect();
+            // 视口高度（兼容窗口和文档高度）
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 判断条件：元素上下左右均有部分进入视口（可调整阈值）
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= viewportHeight + 100 && // 向下偏移100px，提前触发显示，更友好
+                rect.right <= viewportWidth
+            );
+        }
+
+        // 5. 滚动监听：遍历卡片，判断是否显示
+        function checkFoodCardsVisibility() {
+            foodCards.forEach(card => {
+                if (isElementInViewport(card) && !card.classList.contains("visible")) {
+                    // 为进入视口的卡片添加显示类
+                    card.classList.add("visible");
+                }
+                // 可选：滚动离开时隐藏（注释掉则显示后保持可见）
+                // else {
+                //     card.classList.remove("visible");
+                // }
+            });
+        }
+
+        // 6. 页面加载完成后执行
         window.onload = function() {
-            renderFoodCards();
+            renderFoodCards(); // 生成卡片
+            checkFoodCardsVisibility(); // 初始化时检查一次（顶部卡片直接显示）
             console.log("厦门美食卡片渲染完成！");
         };
 
-        // 可选：添加卡片点击事件，弹出美食详情提示
+        // 7. 添加滚动事件监听：滚动时触发显示判断
+        window.addEventListener("scroll", checkFoodCardsVisibility);
+
+        // 保留原有卡片点击交互
         foodContainer.addEventListener("click", function(e) {
             const foodCard = e.target.closest(".food-card");
             if (foodCard) {
