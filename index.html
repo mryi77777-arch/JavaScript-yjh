@@ -21,7 +21,6 @@
             background-opacity: 0.1;
             padding: 20px;
             min-height: 200vh;
-            /* 为右侧导航预留空间，避免内容被遮挡 */
             padding-right: 320px;
         }
 
@@ -109,15 +108,6 @@
             border-bottom: 3px solid #b83b26;
         }
 
-        /* 美食视频播放区域：嘉庚风格保留 */
-        .food-video {
-            width: 100%;
-            height: 350px;
-            border: none;
-            background-color: #000;
-            border-bottom: 2px solid #c9a87c;
-        }
-
         /* 视频标题：嘉庚风格保留 */
         .video-title {
             padding: 15px 20px;
@@ -126,6 +116,15 @@
             font-size: 1.2rem;
             font-weight: bold;
             border-bottom: 1px solid #f0eae5;
+        }
+
+        /* 新增：B站视频嵌入容器（替换原video样式，保持布局一致） */
+        .bilibili-video {
+            width: 100%;
+            height: 350px; /* 与原视频高度一致，适配布局 */
+            border: none; /* 取消边框，美观 */
+            display: block; /* 避免默认间距 */
+            border-bottom: 2px solid #c9a87c; /* 嘉庚风格白石边框，与原视频一致 */
         }
 
         /* 美食信息样式：嘉庚风格保留 */
@@ -178,16 +177,12 @@
             margin-top: 8px;
         }
 
-        /* ====================================== */
-        /* 右侧导航栏样式：移除当前浏览模块，优化布局 */
-        /* ====================================== */
+        /* 右侧导航栏样式：保留原有优化后的样式 */
         .right-nav {
-            /* 固定定位：右侧悬浮，不随滚动消失 */
             position: fixed;
             top: 50%;
             right: 50px;
             transform: translateY(-50%);
-            /* 嘉庚风格样式 */
             background-color: #ffffff;
             border: 2px solid #f0eae5;
             border-bottom: 4px solid #c9a87c;
@@ -195,24 +190,21 @@
             box-shadow: 0 4px 15px rgba(153, 120, 80, 0.15);
             width: 250px;
             padding: 20px;
-            z-index: 999; /* 确保在最上层，不被其他元素遮挡 */
+            z-index: 999;
         }
 
-        /* 美食导航列表：优化间距，移除当前浏览后的布局调整 */
         .food-nav-list {
             list-style: none;
-            margin-bottom: 25px; /* 导航列表与回到顶端按钮的间距 */
+            margin-bottom: 25px;
         }
         .food-nav-item {
             margin-bottom: 12px;
             border-radius: 6px;
             transition: background-color 0.3s ease;
         }
-        /* 最后一个导航项取消底部间距，优化布局 */
         .food-nav-item:last-child {
             margin-bottom: 0;
         }
-        /* 美食导航链接 */
         .food-nav-link {
             display: block;
             padding: 10px 15px;
@@ -222,7 +214,6 @@
             border-radius: 6px;
             transition: all 0.3s ease;
         }
-        /* 导航项高亮（当前浏览的美食对应导航） */
         .food-nav-item.active .food-nav-link {
             background-color: #f8f3ef;
             color: #b83b26;
@@ -230,13 +221,11 @@
             border-left: 3px solid #b83b26;
             padding-left: 12px;
         }
-        /* 导航项悬停效果 */
         .food-nav-item:hover .food-nav-link {
             background-color: #fafafa;
             color: #b83b26;
         }
 
-        /* 回到顶端按钮 */
         .back-to-top {
             width: 100%;
             padding: 12px;
@@ -251,7 +240,7 @@
             text-align: center;
             display: block;
             text-decoration: none;
-            margin-top: 20px; /* 与导航列表的间距 */
+            margin-top: 20px;
         }
         .back-to-top:hover {
             background-color: #d45a3c;
@@ -259,84 +248,81 @@
     </style>
 </head>
 <body>
-    <!-- 头部标题（添加锚点id，用于回到顶端） -->
+    <!-- 头部标题（锚点id保留） -->
     <header id="pageTop">
         <h1>厦门传统美食图鉴</h1>
         <p>品味闽南风味，感受鹭岛烟火气</p>
     </header>
 
-    <!-- 右侧导航栏：移除当前浏览模块，仅保留美食导航+回到顶端 -->
+    <!-- 右侧导航栏：保留原有结构 -->
     <div class="right-nav" id="rightNav">
-        <!-- 美食导航列表 -->
         <ul class="food-nav-list" id="foodNavList">
-            <!-- 美食导航项将通过JS动态生成 -->
+            <!-- 美食导航项动态生成 -->
         </ul>
-        <!-- 回到顶端按钮 -->
         <a href="#pageTop" class="back-to-top" id="backToTop">回到网页顶端</a>
     </div>
 
     <!-- 美食展示容器 - 单列布局 -->
     <div class="food-container" id="foodContainer">
-        <!-- 美食卡片将通过JavaScript动态生成 -->
+        <!-- 美食卡片动态生成 -->
     </div>
 
     <!-- 底部信息 -->
     <footer>
-        <p>© 2026 厦门美食图鉴 | 图片与视频仅供展示使用</p>
+        <p>© 2026 厦门美食图鉴</p>
     </footer>
 
     <script>
-        // 1. 定义厦门传统美食数据（保留原有结构，锚点id标识）
+        // 1. 定义厦门传统美食数据（更新视频配置：替换为B站嵌入地址，删除原videoCover）
         const xiamenFoods = [
             {
-                id: "food1", // 锚点id，用于导航跳转
+                id: "food1",
                 name: "沙茶面",
                 imgUrl: "https://th.bing.com/th/id/OIP.BoyvqXdPZOQPr1N0LZjmOQHaE8?w=263&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
-                videoUrl: "https://www.bilibili.com/video/BV1KHByBhEW9?t=24.7",
-                videoCover: "https://th.bing.com/th/id/OIP.BoyvqXdPZOQPr1N0LZjmOQHaE8?w=263&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
+                // 替换为你的B站视频嵌入src（从B站嵌入代码中复制src属性值，去掉前后引号）
+                bilibiliSrc: "<iframe src=\"//player.bilibili.com/player.html?isOutside=true&aid=115791345293881&bvid=BV1KHByBhEW9&cid=35016673027&p=1\" scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\"></iframe>",
                 description: "厦门标志性传统美食，源自东南亚沙茶风味与闽南面食的完美融合。汤底以沙茶酱为核心，搭配骨汤熬制，色泽红亮，鲜香浓郁，咸中带甜，微辣回甘。配料极为丰富，常见的有虾仁、鱿鱼、鱼丸、豆腐泡、青菜等，面条多选用劲道的碱水面，拌匀后每一根面条都裹满浓郁汤底，口感层次丰富，是厦门人早餐和正餐的首选。"
             },
             {
-                id: "food2", // 锚点id，用于导航跳转
+                id: "food2",
                 name: "土笋冻",
                 imgUrl: "https://th.bing.com/th/id/OIP.e2jC5zIQbHV_EkYaYTWN9QHaHa?w=143&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
-                videoUrl: "https://www.bilibili.com/video/BV1u6qrBoE9N?t=7.8",
-                videoCover: "https://th.bing.com/th/id/OIP.e2jC5zIQbHV_EkYaYTWN9QHaHa?w=143&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
+                // 替换为你的B站视频嵌入src
+                bilibiliSrc: "<iframe src=\"//player.bilibili.com/player.html?isOutside=true&aid=115751918770754&bvid=BV1u6qrBoE9N&cid=34866071044&p=1\" scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\"></iframe>",
                 description: "厦门极具特色的传统小吃，堪称“闽南奇味”。其原料并非竹笋，而是一种生活在沿海滩涂的星虫（俗称“土笋”）。制作时将土笋熬煮，其体内的胶质会慢慢析出，冷却后自然凝固成晶莹剔透的冻状，形似果冻。成品土笋冻色泽洁白，口感Q弹爽滑，食用时蘸上醋、芥末、蒜蓉、酱油等调料，鲜而不腥，清爽可口，不仅是特色美食，还具有一定的营养价值。"
             },
             {
-                id: "food3", // 锚点id，用于导航跳转
+                id: "food3",
                 name: "烧肉粽",
                 imgUrl: "https://th.bing.com/th/id/OIP.iu_bCAnKqMNXCL8boSTsywHaDF?w=343&h=145&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
-                videoUrl: "https://www.bilibili.com/video/BV1vD4y1Q7Ed?t=7.4",
-                videoCover: "https://th.bing.com/th/id/OIP.iu_bCAnKqMNXCL8boSTsywHaDF?w=343&h=145&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3",
+                // 替换为你的B站视频嵌入src
+                bilibiliSrc: "<iframe src=\"//player.bilibili.com/player.html?isOutside=true&aid=711192201&bvid=BV1vD4y1Q7Ed&cid=205625961&p=1\" scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\"></iframe>",
                 description: "厦门烧肉粽区别于北方甜粽，是闽南咸粽的代表，以“料足味浓”闻名。粽叶选用清香的箬叶或竹叶，糯米提前用酱油、盐等调味腌制，内馅极为丰富，核心配料是肥瘦相间的五花肉（经卤制或腌制，油润不腻），搭配板栗、香菇、干贝、虾仁、蛋黄等食材。煮熟后的烧肉粽软糯鲜香，糯米吸饱了肉香和粽叶香，内馅口感丰富，食用时可蘸花生酱、甜辣酱或蒜蓉酱，风味更佳。"
             },
             {
-                id: "food4", // 锚点id，用于导航跳转
+                id: "food4",
                 name: "海蛎煎（蚵仔煎）",
                 imgUrl: "https://th.bing.com/th/id/OIP.2P0FEToLFuptgPTXka0DBQHaE8?w=292&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=30",
-                videoUrl: "https://www.bilibili.com/video/BV1AGWCzqEUK?t=7.1",
-                videoCover: "https://th.bing.com/th/id/OIP.2P0FEToLFuptgPTXka0DBQHaE8?w=292&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=30",
+                // 替换为你的B站视频嵌入src
+                bilibiliSrc: "<iframe src=\"//player.bilibili.com/player.html?isOutside=true&aid=115388322944419&bvid=BV1AGWCzqEUK&cid=33148438032&p=1\" scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" allowfullscreen=\"true\"></iframe>",
                 description: "闽南经典传统小吃，厦门街头巷尾随处可见。原料选用新鲜饱满的海蛎（闽南称“蚵仔”），搭配地瓜粉、鸡蛋、葱花调制而成。制作时先将海蛎与地瓜粉浆拌匀，倒入热油锅中煎至定型，再淋上蛋液，煎至两面金黄酥脆，内里鲜嫩多汁。成品外酥里嫩，海蛎的鲜与鸡蛋的香完美融合，食用时蘸上闽南特色甜辣酱，解腻增香，是厦门人喜爱的街头美食和下酒菜。"
             }
         ];
 
-        // 2. 获取DOM元素（移除当前浏览相关DOM获取）
+        // 2. 获取DOM元素（保留原有核心元素）
         const foodContainer = document.getElementById("foodContainer");
-        const rightNav = document.getElementById("rightNav");
         const foodNavList = document.getElementById("foodNavList");
         const backToTop = document.getElementById("backToTop");
         let foodCards = [];
-        let foodNavItems = []; // 存储导航项
+        let foodNavItems = [];
 
-        // 3. 动态生成美食卡片（保留原有布局，添加锚点id）
+        // 3. 动态生成美食卡片（替换视频区域为iframe，适配B站播放）
         function renderFoodCards() {
             xiamenFoods.forEach(food => {
-                // 创建卡片容器，添加锚点id
+                // 创建卡片容器
                 const foodCard = document.createElement("div");
                 foodCard.className = "food-card";
-                foodCard.id = food.id; // 绑定锚点id，用于导航跳转
+                foodCard.id = food.id;
 
                 // 创建美食图片
                 const foodImg = document.createElement("img");
@@ -350,24 +336,16 @@
                 // 创建视频标题
                 const videoTitle = document.createElement("div");
                 videoTitle.className = "video-title";
-                videoTitle.textContent = `${food.name} - 美食制作/食用视频`;
+                videoTitle.textContent = `${food.name} - 美食制作/食用视频（B站）`;
 
-                // 创建美食视频
-                const foodVideo = document.createElement("video");
-                foodVideo.className = "food-video";
-                foodVideo.src = food.videoUrl;
-                foodVideo.poster = food.videoCover;
-                foodVideo.controls = true;
-                foodVideo.preload = "metadata";
-                foodVideo.onerror = function() {
-                    this.innerHTML = `无法加载${food.name}相关视频，请检查视频地址是否有效`;
-                    this.style.color = "#b83b26";
-                    this.style.display = "flex";
-                    this.style.alignItems = "center";
-                    this.style.justifyContent = "center";
-                    this.style.textAlign = "center";
-                    this.style.padding = "20px";
-                };
+                // 新增：创建iframe元素，嵌入B站视频（替换原video元素）
+                const bilibiliIframe = document.createElement("iframe");
+                bilibiliIframe.className = "bilibili-video";
+                bilibiliIframe.src = food.bilibiliSrc; // 绑定B站嵌入地址
+                bilibiliIframe.scrolling = "no"; // 取消滚动条
+                bilibiliIframe.frameBorder = "0"; // 取消框架边框
+                bilibiliIframe.allowFullscreen = true; // 允许全屏播放
+                bilibiliIframe.title = `${food.name} B站视频`; // 无障碍标题
 
                 // 创建美食信息
                 const foodInfo = document.createElement("div");
@@ -377,12 +355,12 @@
                 const foodDesc = document.createElement("p");
                 foodDesc.textContent = food.description;
 
-                // 组装元素
+                // 组装元素（保持：图片→视频标题→B站iframe→文字信息 布局不变）
                 foodInfo.appendChild(foodName);
                 foodInfo.appendChild(foodDesc);
                 foodCard.appendChild(foodImg);
                 foodCard.appendChild(videoTitle);
-                foodCard.appendChild(foodVideo);
+                foodCard.appendChild(bilibiliIframe); // 替换原video为iframe
                 foodCard.appendChild(foodInfo);
 
                 // 添加到容器并存储
@@ -391,44 +369,39 @@
             });
         }
 
-        // 4. 动态生成右侧美食导航项（对应每个美食，实现跳转功能）
+        // 4. 动态生成右侧美食导航项（保留原有功能）
         function renderFoodNav() {
             xiamenFoods.forEach((food, index) => {
-                // 创建导航列表项
                 const navItem = document.createElement("li");
                 navItem.className = "food-nav-item";
-                navItem.dataset.index = index; // 存储索引，用于关联卡片
+                navItem.dataset.index = index;
 
-                // 创建导航链接
                 const navLink = document.createElement("a");
                 navLink.className = "food-nav-link";
-                navLink.href = `#${food.id}`; // 关联美食卡片锚点id，实现跳转
+                navLink.href = `#${food.id}`;
                 navLink.textContent = food.name;
 
-                // 平滑滚动跳转（替代默认锚点跳转的生硬效果）
+                // 平滑滚动跳转
                 navLink.addEventListener("click", function(e) {
-                    e.preventDefault(); // 阻止默认锚点跳转
+                    e.preventDefault();
                     const targetFoodCard = document.getElementById(food.id);
-                    // 平滑滚动到目标美食卡片
                     targetFoodCard.scrollIntoView({
                         behavior: "smooth",
-                        block: "center" // 滚动后卡片居中显示
+                        block: "center"
                     });
                 });
 
-                // 组装导航项
                 navItem.appendChild(navLink);
                 foodNavList.appendChild(navItem);
                 foodNavItems.push(navItem);
             });
         }
 
-        // 5. 核心功能：判断元素是否进入视口
+        // 5. 视口判断函数（保留原有功能）
         function isElementInViewport(el) {
             const rect = el.getBoundingClientRect();
             const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
             const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-            // 调整阈值：元素大部分进入视口时判定为当前浏览
             return (
                 rect.top >= -200 &&
                 rect.left >= 0 &&
@@ -437,47 +410,43 @@
             );
         }
 
-        // 6. 滚动监听：① 美食卡片依次显示 ② 导航项高亮（移除当前浏览名称更新）
+        // 6. 滚动监听（保留原有功能）
         function onScrollHandler() {
-            // 遍历卡片，判断显示状态和导航高亮
             foodCards.forEach((card, index) => {
                 // 卡片显示逻辑
                 if (isElementInViewport(card) && !card.classList.contains("visible")) {
                     card.classList.add("visible");
                 }
 
-                // 导航项高亮：仅保留导航高亮逻辑，移除当前浏览名称更新
+                // 导航项高亮逻辑
                 if (isElementInViewport(card)) {
-                    // 移除所有导航项高亮，给当前项添加高亮
                     foodNavItems.forEach(item => item.classList.remove("active"));
                     foodNavItems[index].classList.add("active");
                 }
             });
         }
 
-        // 7. 回到顶端功能（平滑滚动）
+        // 7. 回到顶端功能（保留原有功能）
         function initBackToTop() {
             backToTop.addEventListener("click", function(e) {
-                e.preventDefault(); // 阻止默认锚点跳转
-                // 平滑滚动到网页顶端（header）
+                e.preventDefault();
                 document.getElementById("pageTop").scrollIntoView({
                     behavior: "smooth",
                     block: "start"
                 });
-                // 回到顶端后，仅移除所有导航项高亮
                 setTimeout(() => {
                     foodNavItems.forEach(item => item.classList.remove("active"));
                 }, 500);
             });
         }
 
-        // 8. 页面加载完成后初始化
+        // 8. 页面初始化
         window.onload = function() {
-            renderFoodCards(); // 生成美食卡片
-            renderFoodNav(); // 生成右侧导航项
-            initBackToTop(); // 初始化回到顶端功能
-            onScrollHandler(); // 初始化检查卡片和导航高亮
-            console.log("厦门美食卡片（嘉庚风格+右侧导航优化版）渲染完成！");
+            renderFoodCards();
+            renderFoodNav();
+            initBackToTop();
+            onScrollHandler();
+            console.log("厦门美食卡片（B站视频嵌入版）渲染完成！");
         };
 
         // 9. 绑定滚动事件
